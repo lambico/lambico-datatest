@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,7 +25,7 @@ public class DataAggregatorDeserializer extends StdDeserializer<DataAggregator> 
 
     @Override
     public DataAggregator deserialize(JsonParser p, DeserializationContext ctxt)
-            throws IOException, JsonProcessingException {
+            throws IOException {
         ObjectMapper mapper = (ObjectMapper) p.getCodec();
         JsonNode root = mapper.readTree(p);
         DataAggregator result = new DataAggregator();
@@ -34,7 +33,7 @@ public class DataAggregatorDeserializer extends StdDeserializer<DataAggregator> 
         while (fields.hasNext()) {
             Entry<String, JsonNode> field = fields.next();
             String key = field.getKey();
-            CollectionType type = null;
+            CollectionType type;
             try {
                 type = TypeFactory.defaultInstance().constructCollectionType(
                             ArrayList.class, Class.forName(key));
