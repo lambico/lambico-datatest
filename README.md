@@ -1,3 +1,8 @@
+CI on master: [![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=master)](https://travis-ci.com/lambico/lambico-datatest)
+
+CI on develop: [![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=develop)](https://travis-ci.com/lambico/lambico-datatest)
+
+
 # Lambico Datatest
 
 Support for data-centric tests.
