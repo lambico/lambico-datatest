@@ -12,7 +12,7 @@ buildNumber.properties
 .classpath
 .project
 .settings/
-.vsc
+.vscode/
 
 # Intellij files
 .idea
