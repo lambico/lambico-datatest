@@ -15,8 +15,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>11</maven.compiler.source>
-    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
     <m2e.apt.activation>disabled</m2e.apt.activation>
     <junit.junit4.version>4.12</junit.junit4.version>
     <jackson.version>2.9.8</jackson.version>
