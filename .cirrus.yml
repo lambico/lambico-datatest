@@ -1,7 +1,6 @@
-container:
-  matrix:
-    image: openjdk:8-jdk-stretch
-    image: openjdk:11-jdk-stretch
-
 test_task:
+  container:
+    matrix:
+      image: openjdk:8-jdk-stretch
+      image: openjdk:11-jdk-stretch
   test_script: ./mvnw clean install
