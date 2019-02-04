@@ -1,13 +1,16 @@
-CI on master: [![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=master)](https://travis-ci.com/lambico/lambico-datatest)
-
-CI on develop: [![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=develop)](https://travis-ci.com/lambico/lambico-datatest)
-
-
 # Lambico Datatest
+
+On master:
+[![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=master)](https://travis-ci.com/lambico/lambico-datatest)
+[![Build Status](https://api.cirrus-ci.com/github/lambico/lambico-datatest.svg?branch=master)](https://cirrus-ci.com/github/lambico/lambico-datatest)
+
+On develop:
+[![Build Status](https://travis-ci.com/lambico/lambico-datatest.svg?branch=develop)](https://travis-ci.com/lambico/lambico-datatest)
+[![Build Status](https://api.cirrus-ci.com/github/lambico/lambico-datatest.svg?branch=develop)](https://cirrus-ci.com/github/lambico/lambico-datatest)
 
 Support for data-centric tests.
 
-# Introduction
+## Introduction
 
 **Warning:** at present we are still experimenting, so all the code, project structure, data format, really everything could change.
 
@@ -24,6 +27,7 @@ We will start supporting at least JSON as main format for datasets.
 For example, in the simplest case, if we have to populate a database containing two entities (`org.lambico.datatest.example1.model.Entity1` and `org.lambico.datatest.example1.model.Entity2`), we will aim to have in a directory `org/lambico/datatest.example1.model` two JSON files:
 
 **`Entity1.json`**:
+
 ```json
 [
     {
@@ -46,6 +50,7 @@ For example, in the simplest case, if we have to populate a database containing 
 ```
 
 **`Entity2.json`**:
+
 ```json
 [
     {
@@ -62,6 +67,7 @@ For example, in the simplest case, if we have to populate a database containing 
 or, if you prefer a single file as dataset, you could have:
 
 **`dataset.json`**:
+
 ```json
 {
     "org.lambico.datatest.example1.model.Entity1": [

@@ -1,5 +1,5 @@
 container:
-  image: openjdk/11-jdk-stretch:latest
+  image: openjdk:11-jdk-stretch
 
 test_task:
   test_script: ./mvnw clean install
