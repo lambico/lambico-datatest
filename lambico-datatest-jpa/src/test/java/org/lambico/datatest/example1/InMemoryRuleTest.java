@@ -16,7 +16,7 @@ import org.lambico.datatest.junit.Dataset;
 
 public class InMemoryRuleTest {
     @Rule
-    public static Dataset dataset = new Dataset("org/lambico/datatest/example1/dataset/dataset.json");
+    public Dataset dataset = new Dataset("org/lambico/datatest/example1/dataset/dataset.json");
 
     @Test
     public void loadAggregatedObject() throws IOException, ClassNotFoundException {
