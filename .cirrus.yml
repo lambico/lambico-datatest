@@ -3,5 +3,10 @@ test_task:
     matrix:
       image: openjdk:8-jdk-stretch
       image: openjdk:11-jdk-stretch
-    memory: 8
   test_script: ./mvnw clean install
+
+windows_test_task:
+  windows_container:
+    image: openjdk/11-jdk-windowsservercore-1809
+    os_version: 1809
+  test_script: ./mvnw.bat clean install
