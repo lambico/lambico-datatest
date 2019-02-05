@@ -3,4 +3,5 @@ test_task:
     matrix:
       image: openjdk:8-jdk-stretch
       image: openjdk:11-jdk-stretch
+    memory: 8
   test_script: ./mvnw clean install
