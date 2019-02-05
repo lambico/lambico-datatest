@@ -7,6 +7,8 @@ test_task:
 
 windows_test_task:
   windows_container:
-    image: openjdk:11-jdk-windowsservercore-1803
+    matrix:
+      image: openjdk:8-jdk-windowsservercore-1803
+      image: openjdk:11-jdk-windowsservercore-1803
     os_version: 1803
   test_script: mvnw.cmd clean install
