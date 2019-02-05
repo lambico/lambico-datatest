@@ -9,4 +9,4 @@ windows_test_task:
   windows_container:
     image: openjdk:11-jdk-windowsservercore-1803
     os_version: 1803
-  test_script: ./mvnw.bat clean install
+  test_script: mvnw.bat clean install
