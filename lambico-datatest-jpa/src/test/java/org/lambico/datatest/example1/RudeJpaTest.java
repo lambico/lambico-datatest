@@ -1,7 +1,8 @@
 package org.lambico.datatest.example1;
 
-import static org.hamcrest.MatcherAssert.assertThat; 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +29,6 @@ import org.junit.Test;
 import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
 import org.lambico.datatest.jpa.PersistenceUnitInfoImpl;
-import org.lambico.datatest.json.DataAggregator;
 import org.lambico.datatest.junit.Dataset;
 
 public class RudeJpaTest {

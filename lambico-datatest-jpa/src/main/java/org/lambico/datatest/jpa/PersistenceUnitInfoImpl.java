@@ -26,65 +26,71 @@ public class PersistenceUnitInfoImpl
     private final String persistenceUnitName;
  
     private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
- 
+
     private final List<String> managedClassNames;
- 
+
     private final List<String> mappingFileNames = new ArrayList<>();
- 
+
     private final Properties properties;
- 
+
     private DataSource jtaDataSource;
- 
+
     private DataSource nonJtaDataSource;
- 
-    public PersistenceUnitInfoImpl(
-            String persistenceUnitName,
-            List<String> managedClassNames,
-            Properties properties) {
+
+    public PersistenceUnitInfoImpl(String persistenceUnitName, List<String> managedClassNames, Properties properties) {
         this.persistenceUnitName = persistenceUnitName;
         this.managedClassNames = managedClassNames;
         this.properties = properties;
     }
- 
+
     @Override
     public String getPersistenceUnitName() {
         return persistenceUnitName;
     }
- 
+
     @Override
     public String getPersistenceProviderClassName() {
-        return this.properties.getProperty("javax.persistence.provider", "org.hibernate.jpa.HibernatePersistenceProvider");
+        return this.properties.getProperty("javax.persistence.provider",
+                "org.hibernate.jpa.HibernatePersistenceProvider");
     }
- 
+
     @Override
     public PersistenceUnitTransactionType getTransactionType() {
-        String transactionTypeName = this.properties.getProperty("javax.persistence.transactionType", "RESOURCE_LOCAL");
-        return PersistenceUnitTransactionType.valueOf(transactionTypeName);
+        if (this.transactionType == null) {
+            String transactionTypeName = this.properties.getProperty("javax.persistence.transactionType", "RESOURCE_LOCAL");
+            this.transactionType = PersistenceUnitTransactionType.valueOf(transactionTypeName);
+        }
+        return this.transactionType;
     }
- 
+
+    /**
+     * @param transactionType the transactionType to set
+     */
+    public void setTransactionType(PersistenceUnitTransactionType transactionType) {
+        this.transactionType = transactionType;
+    }
+
     @Override
     public DataSource getJtaDataSource() {
         return jtaDataSource;
     }
- 
-    public PersistenceUnitInfoImpl setJtaDataSource(
-            DataSource jtaDataSource) {
+
+    public PersistenceUnitInfoImpl setJtaDataSource(DataSource jtaDataSource) {
         this.jtaDataSource = jtaDataSource;
         this.nonJtaDataSource = null;
-        transactionType = PersistenceUnitTransactionType.JTA;
+        setTransactionType(PersistenceUnitTransactionType.JTA);
         return this;
     }
- 
+
     @Override
     public DataSource getNonJtaDataSource() {
         return nonJtaDataSource;
     }
- 
-    public PersistenceUnitInfoImpl setNonJtaDataSource(
-            DataSource nonJtaDataSource) {
+
+    public PersistenceUnitInfoImpl setNonJtaDataSource(DataSource nonJtaDataSource) {
         this.nonJtaDataSource = nonJtaDataSource;
         this.jtaDataSource = null;
-        transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
+        setTransactionType(PersistenceUnitTransactionType.RESOURCE_LOCAL);
         return this;
     }
  
