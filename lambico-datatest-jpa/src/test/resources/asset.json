@@ -1,0 +1,20 @@
+{
+  "org.lambico.datatest.example1.model.Asset": [{
+    "@id" : "asset-1",
+    "name" : "myAsset"
+  }],
+  "org.lambico.datatest.example1.model.Job": [{
+    "@id" : "job-1",
+    "jobName" : "jobA",
+    "asset" : {
+      "@ref" : "asset-1"
+    }
+  },
+    {
+      "@id" : "job-2",
+      "jobName" : "jobB",
+      "asset" : {
+        "@ref" : "asset-1"
+      }
+    }]
+}
