@@ -1,20 +1,14 @@
 package org.lambico.datatest.example1;
 
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
 import org.lambico.datatest.json.DataAggregator;
-import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.junit.DatasetPath;
 
 import java.util.Collection;
-import java.util.Map;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.*;
 
 public class DatasetPathTest {
