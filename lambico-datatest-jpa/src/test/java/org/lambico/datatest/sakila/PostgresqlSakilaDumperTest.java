@@ -78,7 +78,9 @@ public class PostgresqlSakilaDumperTest {
                 Class<?> entityType = managedType.getJavaType();
                 CriteriaBuilder cb = em.getCriteriaBuilder();
                 CriteriaQuery<?> cq = cb.createQuery(entityType);
+                @SuppressWarnings("rawtypes")
                 Root rootEntry = cq.from(entityType);
+                @SuppressWarnings("unchecked")
                 CriteriaQuery<?> all = cq.select(rootEntry);
                 TypedQuery<?> allQuery = em.createQuery(all);
                 dataAggregator.getObjects().put(entityType.getName(), allQuery.getResultList());
