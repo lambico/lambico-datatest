@@ -107,10 +107,6 @@ public class LanguageTest {
     public void findAllLanguages() {
         TypedQuery<Language> query = em.createQuery("select l from Language l order by l.id", Language.class);
         List<Language> languages = query.getResultList();
-        int count = 1;
-        for (Language language : languages) {
-            log.info("{} {}", count++, language);
-        }
         assertThat(languages.size(), is(6));
         Language english = languages.get(0);
         assertThat(english, is(not(nullValue())));
