@@ -5,11 +5,15 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
  */
 @Embeddable
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class FilmActorPK implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,7 +74,7 @@ public class FilmActorPK implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.FilmActorPK[ actorId=" + actorId + ", filmId=" + filmId + " ]";
+        return "org.lambico.datatest.sakila.model.FilmActorPK[ actorId=" + actorId + ", filmId=" + filmId + " ]";
     }
     
 }

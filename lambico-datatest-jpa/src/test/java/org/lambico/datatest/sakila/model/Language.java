@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -25,6 +29,7 @@ import javax.persistence.TemporalType;
 @Table(name = "language")
 @NamedQueries({
     @NamedQuery(name = "Language.findAll", query = "SELECT l FROM Language l")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Language implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +46,9 @@ public class Language implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "language")
-    private Collection<Film> filmCollection;
-    @OneToMany(mappedBy = "language1")
-    private Collection<Film> filmCollection1;
+    private Collection<Film> filmsInThisLanguage;
+    @OneToMany(mappedBy = "originalLanguage")
+    private Collection<Film> filmsWithThisOriginalLanguage;
 
     public Language() {
     }
@@ -82,20 +87,32 @@ public class Language implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Collection<Film> getFilmCollection() {
-        return filmCollection;
+    /**
+     * @return Collection<Film> return the filmsInThisLanguage
+     */
+    public Collection<Film> getFilmsInThisLanguage() {
+        return filmsInThisLanguage;
     }
 
-    public void setFilmCollection(Collection<Film> filmCollection) {
-        this.filmCollection = filmCollection;
+    /**
+     * @param filmsInThisLanguage the filmsInThisLanguage to set
+     */
+    public void setFilmsInThisLanguage(Collection<Film> filmsInThisLanguage) {
+        this.filmsInThisLanguage = filmsInThisLanguage;
     }
 
-    public Collection<Film> getFilmCollection1() {
-        return filmCollection1;
+    /**
+     * @return Collection<Film> return the filmsWithThisOriginalLanguage
+     */
+    public Collection<Film> getFilmsWithThisOriginalLanguage() {
+        return filmsWithThisOriginalLanguage;
     }
 
-    public void setFilmCollection1(Collection<Film> filmCollection1) {
-        this.filmCollection1 = filmCollection1;
+    /**
+     * @param filmsWithThisOriginalLanguage the filmsWithThisOriginalLanguage to set
+     */
+    public void setFilmsWithThisOriginalLanguage(Collection<Film> filmsWithThisOriginalLanguage) {
+        this.filmsWithThisOriginalLanguage = filmsWithThisOriginalLanguage;
     }
 
     @Override
@@ -120,7 +137,7 @@ public class Language implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Language[ languageId=" + languageId + " ]";
+        return "org.lambico.datatest.sakila.model.Language[ languageId=" + languageId + " ]";
     }
-    
+
 }

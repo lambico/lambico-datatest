@@ -14,6 +14,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -22,6 +25,7 @@ import javax.persistence.TemporalType;
 @Table(name = "film_actor")
 @NamedQueries({
     @NamedQuery(name = "FilmActor.findAll", query = "SELECT f FROM FilmActor f")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class FilmActor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -108,7 +112,7 @@ public class FilmActor implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.FilmActor[ filmActorPK=" + filmActorPK + " ]";
+        return "org.lambico.datatest.sakila.model.FilmActor[ filmActorPK=" + filmActorPK + " ]";
     }
     
 }

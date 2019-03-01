@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +14,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -20,6 +21,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 /**
  *
@@ -29,6 +34,7 @@ import javax.persistence.TemporalType;
 @Table(name = "film")
 @NamedQueries({
     @NamedQuery(name = "Film.findAll", query = "SELECT f FROM Film f")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Film implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -62,22 +68,20 @@ public class Film implements Serializable {
     @Column(name = "last_update")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
-    @Column(name = "special_features")
+    @Transient
     private Serializable specialFeatures;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "fulltext")
+    @Transient
     private Object fulltext;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
     private Collection<FilmCategory> filmCategoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
-    private Collection<FilmActor> filmActorCollection;
+    private List<FilmActor> filmActorCollection;
     @JoinColumn(name = "language_id", referencedColumnName = "language_id")
     @ManyToOne(optional = false)
     private Language language;
     @JoinColumn(name = "original_language_id", referencedColumnName = "language_id")
     @ManyToOne
-    private Language language1;
+    private Language originalLanguage;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "film")
     private Collection<Inventory> inventoryCollection;
 
@@ -202,11 +206,11 @@ public class Film implements Serializable {
         this.filmCategoryCollection = filmCategoryCollection;
     }
 
-    public Collection<FilmActor> getFilmActorCollection() {
+    public List<FilmActor> getFilmActorCollection() {
         return filmActorCollection;
     }
 
-    public void setFilmActorCollection(Collection<FilmActor> filmActorCollection) {
+    public void setFilmActorCollection(List<FilmActor> filmActorCollection) {
         this.filmActorCollection = filmActorCollection;
     }
 
@@ -218,12 +222,12 @@ public class Film implements Serializable {
         this.language = language;
     }
 
-    public Language getLanguage1() {
-        return language1;
+    public Language getOriginalLanguage() {
+        return originalLanguage;
     }
 
-    public void setLanguage1(Language language1) {
-        this.language1 = language1;
+    public void setOriginalLanguage(Language originalLanguage) {
+        this.originalLanguage = originalLanguage;
     }
 
     public Collection<Inventory> getInventoryCollection() {
@@ -256,7 +260,7 @@ public class Film implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Film[ filmId=" + filmId + " ]";
+        return "org.lambico.datatest.sakila.model.Film[ filmId=" + filmId + " ]";
     }
-    
+
 }

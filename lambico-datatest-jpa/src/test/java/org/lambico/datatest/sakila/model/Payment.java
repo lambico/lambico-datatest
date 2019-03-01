@@ -17,6 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -25,6 +28,7 @@ import javax.persistence.TemporalType;
 @Table(name = "payment")
 @NamedQueries({
     @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -134,7 +138,7 @@ public class Payment implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Payment[ paymentId=" + paymentId + " ]";
+        return "org.lambico.datatest.sakila.model.Payment[ paymentId=" + paymentId + " ]";
     }
     
 }

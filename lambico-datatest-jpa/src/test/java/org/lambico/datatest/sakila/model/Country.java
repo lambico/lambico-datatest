@@ -1,10 +1,9 @@
 package org.lambico.datatest.sakila.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 /**
  *
@@ -25,6 +26,7 @@ import javax.persistence.TemporalType;
 @Table(name = "country")
 @NamedQueries({
     @NamedQuery(name = "Country.findAll", query = "SELECT c FROM Country c")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Country implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +42,6 @@ public class Country implements Serializable {
     @Column(name = "last_update")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "country")
-    private Collection<City> cityCollection;
 
     public Country() {
     }
@@ -80,14 +80,6 @@ public class Country implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Collection<City> getCityCollection() {
-        return cityCollection;
-    }
-
-    public void setCityCollection(Collection<City> cityCollection) {
-        this.cityCollection = cityCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -110,7 +102,7 @@ public class Country implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Country[ countryId=" + countryId + " ]";
+        return "org.lambico.datatest.sakila.model.Country[ countryId=" + countryId + " ]";
     }
     
 }

@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -27,6 +31,7 @@ import javax.persistence.TemporalType;
 @Table(name = "inventory")
 @NamedQueries({
     @NamedQuery(name = "Inventory.findAll", query = "SELECT i FROM Inventory i")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Inventory implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +51,7 @@ public class Inventory implements Serializable {
     @ManyToOne(optional = false)
     private Store store;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inventory")
-    private Collection<Rental> rentalCollection;
+    private Collection<Rental> rentals;
 
     public Inventory() {
     }
@@ -92,12 +97,12 @@ public class Inventory implements Serializable {
         this.store = store;
     }
 
-    public Collection<Rental> getRentalCollection() {
-        return rentalCollection;
+    public Collection<Rental> getRentals() {
+        return rentals;
     }
 
-    public void setRentalCollection(Collection<Rental> rentalCollection) {
-        this.rentalCollection = rentalCollection;
+    public void setRentals(Collection<Rental> rentals) {
+        this.rentals= rentals;
     }
 
     @Override
@@ -122,7 +127,7 @@ public class Inventory implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Inventory[ inventoryId=" + inventoryId + " ]";
+        return "org.lambico.datatest.sakila.model.Inventory[ inventoryId=" + inventoryId + " ]";
     }
     
 }

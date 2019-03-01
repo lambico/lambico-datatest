@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,6 +20,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  *
  * @author lucio
@@ -27,11 +33,16 @@ import javax.persistence.TemporalType;
 @Table(name = "rental")
 @NamedQueries({
     @NamedQuery(name = "Rental.findAll", query = "SELECT r FROM Rental r")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Rental implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(
+        name = "assigned-identity",
+        strategy = "org.lambico.datatest.sakila.model.AssignedIdentityGenerator"
+    )
+    @GeneratedValue(generator = "assigned-identity", strategy = GenerationType.IDENTITY)    
     @Basic(optional = false)
     @Column(name = "rental_id")
     private Integer rentalId;
@@ -157,7 +168,7 @@ public class Rental implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Rental[ rentalId=" + rentalId + " ]";
+        return "org.lambico.datatest.sakila.model.Rental[ rentalId=" + rentalId + " ]";
     }
     
 }

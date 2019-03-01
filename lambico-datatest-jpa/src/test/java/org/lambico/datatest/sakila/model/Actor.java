@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +18,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -25,6 +29,7 @@ import javax.persistence.TemporalType;
 @Table(name = "actor")
 @NamedQueries({
     @NamedQuery(name = "Actor.findAll", query = "SELECT a FROM Actor a")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Actor implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -122,7 +127,7 @@ public class Actor implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Actor[ actorId=" + actorId + " ]";
+        return "org.lambico.datatest.sakila.model.Actor[ actorId=" + actorId + " ]";
     }
     
 }

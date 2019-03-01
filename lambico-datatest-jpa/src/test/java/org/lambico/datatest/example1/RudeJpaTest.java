@@ -1,9 +1,9 @@
 package org.lambico.datatest.example1;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -34,7 +34,9 @@ public class RudeJpaTest {
     public static void initTestClass() {
         emf = EntityManagerFactoryCreator.builder()
             .jpaProperty("javax.persistence.schema-generation.database.action", "drop-and-create")
-            .jpaProperty("hibernate.show_sql", "true")
+            .jpaProperty("hibernate.enable_lazy_load_no_trans", "true")
+            .jpaProperty("hibernate.event.merge.entity_copy_observer", "allow")
+            // .jpaProperty("hibernate.show_sql", "true")
             .entity(Entity1.class)
             .entity(Entity2.class)
             .build();
@@ -66,12 +68,12 @@ public class RudeJpaTest {
 
     @After
     public void destroyTest() {
-        em.getTransaction();
+        em.getTransaction().rollback();
         em.close();
     }
 
     @Test
-    public void findObjects() throws IOException, ClassNotFoundException {
+    public void findObjects() {
         TypedQuery<Entity1> query = em.createQuery("select e1 from Entity1 e1", Entity1.class);
         List<Entity1> results = query.getResultList();
         assertThat(results.size(), is(1));

@@ -1,10 +1,9 @@
 package org.lambico.datatest.sakila.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 /**
  *
@@ -27,6 +28,7 @@ import javax.persistence.TemporalType;
 @Table(name = "city")
 @NamedQueries({
     @NamedQuery(name = "City.findAll", query = "SELECT c FROM City c")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,8 +44,6 @@ public class City implements Serializable {
     @Column(name = "last_update")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastUpdate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
-    private Collection<Address> addressCollection;
     @JoinColumn(name = "country_id", referencedColumnName = "country_id")
     @ManyToOne(optional = false)
     private Country country;
@@ -85,14 +85,6 @@ public class City implements Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Collection<Address> getAddressCollection() {
-        return addressCollection;
-    }
-
-    public void setAddressCollection(Collection<Address> addressCollection) {
-        this.addressCollection = addressCollection;
-    }
-
     public Country getCountry() {
         return country;
     }
@@ -123,7 +115,7 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.City[ cityId=" + cityId + " ]";
+        return "org.lambico.datatest.sakila.model.City[ cityId=" + cityId + " ]";
     }
     
 }

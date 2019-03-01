@@ -19,6 +19,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -27,6 +30,7 @@ import javax.persistence.TemporalType;
 @Table(name = "customer")
 @NamedQueries({
     @NamedQuery(name = "Customer.findAll", query = "SELECT c FROM Customer c")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Customer implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,9 +60,9 @@ public class Customer implements Serializable {
     @Column(name = "active")
     private Integer active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<Rental> rentalCollection;
+    private Collection<Rental> rentals;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Collection<Payment> paymentCollection;
+    private Collection<Payment> payments;
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     @ManyToOne(optional = false)
     private Address address;
@@ -145,20 +149,20 @@ public class Customer implements Serializable {
         this.active = active;
     }
 
-    public Collection<Rental> getRentalCollection() {
-        return rentalCollection;
+    public Collection<Rental> getRentals() {
+        return rentals;
     }
 
-    public void setRentalCollection(Collection<Rental> rentalCollection) {
-        this.rentalCollection = rentalCollection;
+    public void setRentals(Collection<Rental> rentals) {
+        this.rentals = rentals;
     }
 
-    public Collection<Payment> getPaymentCollection() {
-        return paymentCollection;
+    public Collection<Payment> getPayments() {
+        return payments;
     }
 
-    public void setPaymentCollection(Collection<Payment> paymentCollection) {
-        this.paymentCollection = paymentCollection;
+    public void setPayments(Collection<Payment> payments) {
+        this.payments = payments;
     }
 
     public Address getAddress() {
@@ -199,7 +203,15 @@ public class Customer implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Customer[ customerId=" + customerId + " ]";
+        return "org.lambico.datatest.sakila.model.Customer[ customerId=" + customerId + " ]";
     }
     
+
+    /**
+     * @return boolean return the activebool
+     */
+    public boolean isActivebool() {
+        return activebool;
+    }
+
 }

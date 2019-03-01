@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,6 +22,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -29,6 +33,7 @@ import javax.persistence.TemporalType;
 @Table(name = "staff")
 @NamedQueries({
     @NamedQuery(name = "Staff.findAll", query = "SELECT s FROM Staff s")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Staff implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -66,8 +71,8 @@ public class Staff implements Serializable {
     @JoinColumn(name = "store_id", referencedColumnName = "store_id")
     @ManyToOne(optional = false)
     private Store store;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "staff")
-    private Store store1;
+    @OneToOne(mappedBy = "manager")
+    private Store managedStore;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "staff")
     private Collection<Rental> rentalCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "staff")
@@ -178,11 +183,11 @@ public class Staff implements Serializable {
     }
 
     public Store getStore1() {
-        return store1;
+        return managedStore;
     }
 
     public void setStore1(Store store1) {
-        this.store1 = store1;
+        this.managedStore = store1;
     }
 
     public Collection<Rental> getRentalCollection() {
@@ -223,7 +228,7 @@ public class Staff implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Staff[ staffId=" + staffId + " ]";
+        return "org.lambico.datatest.sakila.model.Staff[ staffId=" + staffId + " ]";
     }
     
 }

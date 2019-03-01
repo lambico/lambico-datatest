@@ -3,6 +3,7 @@ package org.lambico.datatest.sakila.model;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,6 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
 /**
  *
  * @author lucio
@@ -28,6 +32,7 @@ import javax.persistence.TemporalType;
 @Table(name = "store")
 @NamedQueries({
     @NamedQuery(name = "Store.findAll", query = "SELECT s FROM Store s")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Store implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +51,8 @@ public class Store implements Serializable {
     @ManyToOne(optional = false)
     private Address address;
     @JoinColumn(name = "manager_staff_id", referencedColumnName = "staff_id")
-    @OneToOne(optional = false)
-    private Staff staff;
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    private Staff manager;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
     private Collection<Inventory> inventoryCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "store")
@@ -97,12 +102,12 @@ public class Store implements Serializable {
         this.address = address;
     }
 
-    public Staff getStaff() {
-        return staff;
+    public Staff getManager() {
+        return manager;
     }
 
-    public void setStaff(Staff staff) {
-        this.staff = staff;
+    public void setManager(Staff manager) {
+        this.manager = manager;
     }
 
     public Collection<Inventory> getInventoryCollection() {
@@ -143,7 +148,7 @@ public class Store implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Store[ storeId=" + storeId + " ]";
+        return "org.lambico.datatest.sakila.model.Store[ storeId=" + storeId + " ]";
     }
-    
+
 }

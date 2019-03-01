@@ -1,10 +1,9 @@
 package org.lambico.datatest.sakila.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,10 +13,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.voodoodyne.jackson.jsog.JSOGGenerator;
+
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -27,11 +30,16 @@ import javax.persistence.TemporalType;
 @Table(name = "address")
 @NamedQueries({
     @NamedQuery(name = "Address.findAll", query = "SELECT a FROM Address a")})
+@JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(
+        name = "assigned-identity",
+        strategy = "org.lambico.datatest.sakila.model.AssignedIdentityGenerator"
+    )
+    @GeneratedValue(generator = "assigned-identity", strategy = GenerationType.IDENTITY)    
     @Basic(optional = false)
     @Column(name = "address_id")
     private Integer addressId;
@@ -55,12 +63,6 @@ public class Address implements Serializable {
     @JoinColumn(name = "city_id", referencedColumnName = "city_id")
     @ManyToOne(optional = false)
     private City city;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
-    private Collection<Staff> staffCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
-    private Collection<Store> storeCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address")
-    private Collection<Customer> customerCollection;
 
     public Address() {
     }
@@ -141,30 +143,6 @@ public class Address implements Serializable {
         this.city = city;
     }
 
-    public Collection<Staff> getStaffCollection() {
-        return staffCollection;
-    }
-
-    public void setStaffCollection(Collection<Staff> staffCollection) {
-        this.staffCollection = staffCollection;
-    }
-
-    public Collection<Store> getStoreCollection() {
-        return storeCollection;
-    }
-
-    public void setStoreCollection(Collection<Store> storeCollection) {
-        this.storeCollection = storeCollection;
-    }
-
-    public Collection<Customer> getCustomerCollection() {
-        return customerCollection;
-    }
-
-    public void setCustomerCollection(Collection<Customer> customerCollection) {
-        this.customerCollection = customerCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -187,7 +165,7 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "org.lambico.sakila.model.Address[ addressId=" + addressId + " ]";
+        return "org.lambico.datatest.sakila.model.Address[ addressId=" + addressId + " ]";
     }
     
 }
