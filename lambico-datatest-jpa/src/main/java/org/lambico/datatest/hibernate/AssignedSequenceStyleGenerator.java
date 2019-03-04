@@ -15,7 +15,7 @@ public class AssignedSequenceStyleGenerator extends SequenceStyleGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object obj) {
-        Serializable id = JpaUtils.getIdValue(session.getFactory().getMetamodel(), obj);
+        Serializable id = (Serializable) session.getFactory().getPersistenceUnitUtil().getIdentifier(obj);
         if (id != null) {
             return id;
         }
