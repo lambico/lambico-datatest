@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
-import org.lambico.datatest.jpa.JpaUtils;
 
 /**
  * A generator for using fixed values for ids.
