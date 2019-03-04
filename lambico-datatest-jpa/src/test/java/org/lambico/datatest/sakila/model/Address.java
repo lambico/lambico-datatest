@@ -37,7 +37,7 @@ public class Address implements Serializable {
     @Id
     @GenericGenerator(
         name = "assigned-identity",
-        strategy = "org.lambico.datatest.sakila.model.AssignedIdentityGenerator"
+        strategy = "org.lambico.datatest.hibernate.AssignedIdentityGenerator"
     )
     @GeneratedValue(generator = "assigned-identity", strategy = GenerationType.IDENTITY)    
     @Basic(optional = false)
