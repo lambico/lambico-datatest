@@ -1,12 +1,9 @@
 package org.lambico.datatest.junit;
 
-import java.io.InputStream;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.rules.ExternalResource;
-import org.lambico.datatest.json.DataAggregator;
+import org.lambico.datatest.DataAggregator;
+import org.lambico.datatest.DatasetLoader;
+import org.lambico.datatest.json.SingleJsonDatasetLoader;
 
 public class Dataset extends ExternalResource {
     private String datasetResourceName;
@@ -18,12 +15,11 @@ public class Dataset extends ExternalResource {
 
     @Override
     protected void before() throws Throwable {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        mapper.enable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS);
-        InputStream jsonSource = this.getClass().getClassLoader()
-                .getResourceAsStream(this.datasetResourceName);
-        this.dataAggregator = mapper.readValue(jsonSource, DataAggregator.class);
+        DatasetLoader loader =
+            SingleJsonDatasetLoader.builder()
+                .datasetResource(this.datasetResourceName)
+                .build();
+        this.dataAggregator = loader.load();
         super.before();
     }
 

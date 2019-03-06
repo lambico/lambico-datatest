@@ -15,6 +15,10 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 
+import org.lambico.datatest.DataAggregator;
+/**
+ * A Jackson deserializer for the {@link DataAggregator} class.
+ */
 public class DataAggregatorDeserializer extends StdDeserializer<DataAggregator> {
 
     private static final long serialVersionUID = 1L;

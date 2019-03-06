@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
-import org.lambico.datatest.json.DataAggregator;
+import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.junit.Dataset;
 
 public class InMemoryRuleTest {

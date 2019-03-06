@@ -8,12 +8,12 @@ import java.util.Collection;
 
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.lambico.datatest.json.DataAggregator;
+import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Address;
 import org.lambico.datatest.sakila.model.Film;
 
-public class LoadTestWithRule {
+public class InMemoryRuleTest {
 
     @ClassRule
     public static Dataset dataset = new Dataset("org/lambico/datatest/sakila/dataset/sakila.json");

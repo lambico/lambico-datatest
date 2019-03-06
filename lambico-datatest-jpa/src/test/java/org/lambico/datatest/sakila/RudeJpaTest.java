@@ -19,7 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
-import org.lambico.datatest.json.DataAggregator;
+import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Actor;
 import org.lambico.datatest.sakila.model.Address;

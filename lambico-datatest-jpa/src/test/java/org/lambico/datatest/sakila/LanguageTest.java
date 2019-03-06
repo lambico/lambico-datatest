@@ -72,7 +72,7 @@ public class LanguageTest {
         for (Class<?> currentEntity : orderedEntities) {
             Collection<?> entityList = dataset.getDataAggregator().getObjects().get(currentEntity.getName());
             for (Object entity : entityList) {
-                log.info("Persisting entity {}", entity);
+                log.debug("Persisting entity {}", entity);
                 em.merge(entity);
                 if (i % 100 == 0) {
                     em.flush();

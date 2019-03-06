@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
-import org.lambico.datatest.json.DataAggregator;
+import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.sakila.model.Actor;
 import org.lambico.datatest.sakila.model.Address;
 import org.lambico.datatest.sakila.model.Category;
