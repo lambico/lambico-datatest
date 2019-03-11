@@ -16,10 +16,11 @@ import static org.hamcrest.Matchers.sameInstance;
 
 public class MultipleJsonDatasetLoaderTest {
     private static final String MULTIPLE_DATASET_RESOURCE = "org/lambico/datatest/multiplejson";
-    private static final String EMPTY_DATASET_RESOURCE = "org/lambico/datatest/multiplejson/empty";
+    private static final String EMPTY_DATASET_RESOURCE = "org/lambico/datatest";
+    private static final String NOT_EXISTING_FOLDER = "org/lambico/notafolder";
 
     @Test
-    public void testLoadingMultipleDataset() {
+    public void loading_Multiple_Dataset() {
         DatasetLoader loader =
                 MultipleJsonDatasetLoader.builder()
                         .datasetResource(MULTIPLE_DATASET_RESOURCE)
@@ -46,6 +47,15 @@ public class MultipleJsonDatasetLoaderTest {
                         .build();
         DataAggregator dataAggregator = loader.load();
         assertThat(dataAggregator.getObjects().keySet(), hasSize(0));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void loading_notExisting_folder() {
+        DatasetLoader loader =
+                MultipleJsonDatasetLoader.builder()
+                        .datasetResource(NOT_EXISTING_FOLDER)
+                        .build();
+        loader.load();
     }
 
 }
