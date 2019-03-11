@@ -22,7 +22,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
- * Load multiple dataset from a specific location
+ * Load multiple dataset from a specific location.
  */
 @Builder
 public class MultipleJsonDatasetLoader implements DatasetLoader {
@@ -73,7 +73,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
             String valueAsString = mapper.writeValueAsString(merged);
             return mapper.readValue(valueAsString, DataAggregator.class);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Issue while loading from:" + this.datasetResource, e);
         }
     }
 

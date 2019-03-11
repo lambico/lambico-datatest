@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.sameInstance;
 
 public class MultipleJsonDatasetLoaderTest {
     private static final String MULTIPLE_DATASET_RESOURCE = "org/lambico/datatest/multiplejson";
+    private static final String EMPTY_DATASET_RESOURCE = "org/lambico/datatest/multiplejson/empty";
 
     @Test
     public void testLoadingMultipleDataset() {
@@ -35,6 +36,16 @@ public class MultipleJsonDatasetLoaderTest {
         assertThat(entity2.getStringField(), is("test2"));
         assertThat(entity1.getEntity2(), is(sameInstance(entity2)));
         assertThat(entity2.getEntity1(), is(sameInstance(entity1)));
+    }
+
+    @Test
+    public void loading_empty_folder() {
+        DatasetLoader loader =
+                MultipleJsonDatasetLoader.builder()
+                        .datasetResource(EMPTY_DATASET_RESOURCE)
+                        .build();
+        DataAggregator dataAggregator = loader.load();
+        assertThat(dataAggregator.getObjects().keySet(), hasSize(0));
     }
 
 }
