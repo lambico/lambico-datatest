@@ -88,7 +88,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
      ***************** https://stackoverflow.com/a/3923685/379173
      */
 
-    List<String> getResourceFiles(String path) throws IOException {
+    private List<String> getResourceFiles(String path) throws IOException {
         List<String> filenames = new ArrayList<>();
         try (InputStream in = getResourceAsStream(path);
              BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
