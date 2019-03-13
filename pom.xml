@@ -93,12 +93,6 @@
         <artifactId>postgresql</artifactId>
         <version>42.2.5</version>
       </dependency>
-      <!-- do not commit -->
-      <dependency>
-        <groupId>org.reflections</groupId>
-        <artifactId>reflections</artifactId>
-        <version>0.9.11</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
