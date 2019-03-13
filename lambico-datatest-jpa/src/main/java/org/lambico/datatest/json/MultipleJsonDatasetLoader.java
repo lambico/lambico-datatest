@@ -33,7 +33,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
     /**
      * The name of the JSON resource from which loading the dataset.
      */
-    private String datasetResource;
+    private String datasetResourcePath;
 
 
     /**
@@ -58,8 +58,8 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.enable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS);
         try {
-            List<InputStream> streamList = getResourceFiles(this.datasetResource).stream()
-                    .map(s -> Paths.get(this.datasetResource, s))
+            List<InputStream> streamList = getResourceFiles(this.datasetResourcePath).stream()
+                    .map(s -> Paths.get(this.datasetResourcePath, s))
                     .filter(path -> !Files.isDirectory(path))
                     .map(Path::toString)
                     .filter(s -> s.endsWith(JSON_EXTENSION))
@@ -75,7 +75,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
             String valueAsString = mapper.writeValueAsString(merged);
             return mapper.readValue(valueAsString, DataAggregator.class);
         } catch (Exception e) {
-            throw new RuntimeException("Issue while loading from:" + this.datasetResource, e);
+            throw new RuntimeException("Issue while loading from:" + this.datasetResourcePath, e);
         }
     }
 
@@ -86,10 +86,9 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
         }
     }
 
-    /*
-     ***************** https://stackoverflow.com/a/3923685/379173
+    /**
+     * https://stackoverflow.com/a/3923685/379173
      */
-
     private List<String> getResourceFiles(String path) throws IOException {
         List<String> filenames = new ArrayList<>();
         try (InputStream in = getResourceAsStream(path);

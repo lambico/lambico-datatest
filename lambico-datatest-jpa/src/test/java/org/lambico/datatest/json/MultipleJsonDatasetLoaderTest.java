@@ -23,7 +23,7 @@ public class MultipleJsonDatasetLoaderTest {
     public void loading_Multiple_Dataset() {
         DatasetLoader loader =
                 MultipleJsonDatasetLoader.builder()
-                        .datasetResource(MULTIPLE_DATASET_RESOURCE)
+                        .datasetResourcePath(MULTIPLE_DATASET_RESOURCE)
                         .build();
         DataAggregator dataAggregator = loader.load();
         assertThat(dataAggregator.getObjects().keySet(), hasSize(2));
@@ -43,7 +43,7 @@ public class MultipleJsonDatasetLoaderTest {
     public void loading_empty_folder() {
         DatasetLoader loader =
                 MultipleJsonDatasetLoader.builder()
-                        .datasetResource(EMPTY_DATASET_RESOURCE)
+                        .datasetResourcePath(EMPTY_DATASET_RESOURCE)
                         .build();
         DataAggregator dataAggregator = loader.load();
         assertThat(dataAggregator.getObjects().keySet(), hasSize(0));
@@ -53,7 +53,7 @@ public class MultipleJsonDatasetLoaderTest {
     public void loading_notExisting_folder() {
         DatasetLoader loader =
                 MultipleJsonDatasetLoader.builder()
-                        .datasetResource(NOT_EXISTING_FOLDER)
+                        .datasetResourcePath(NOT_EXISTING_FOLDER)
                         .build();
         loader.load();
     }
