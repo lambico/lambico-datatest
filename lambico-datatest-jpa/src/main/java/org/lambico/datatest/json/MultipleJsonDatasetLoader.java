@@ -1,5 +1,6 @@
 package org.lambico.datatest.json;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
@@ -65,9 +66,10 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
                     .map(this::getResourceAsStream)
                     .collect(Collectors.toList());
             HashMap<String, Object> merged = new HashMap<>();
+            TypeReference<Map<String, Object>> mapType = new TypeReference<Map<String, Object>>() {};
             for (InputStream is : streamList) {
                 String s = inputStreamToString(is);
-                Map<String, Object> map = mapper.readValue(s, Map.class);
+                Map<String, Object> map = mapper.readValue(s, mapType);
                 merged.putAll(map);
             }
             String valueAsString = mapper.writeValueAsString(merged);
