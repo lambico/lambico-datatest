@@ -1,16 +1,14 @@
 package org.lambico.datatest.json;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import lombok.Builder;
 import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.DatasetLoader;
 
-import lombok.Builder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  * Load a dataset from a single JSON source.
@@ -37,7 +35,7 @@ public class SingleJsonDatasetLoader implements DatasetLoader {
         try {
             return mapper.readValue(jsonSource, DataAggregator.class);
         } catch (IOException e) {
-            throw new RuntimeException("Can't load dataset", e);
+            throw new RuntimeException("Can't load dataset from " + this.datasetResource, e);
         }
     }
 
