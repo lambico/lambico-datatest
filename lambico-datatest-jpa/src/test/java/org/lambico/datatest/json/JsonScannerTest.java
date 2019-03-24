@@ -21,7 +21,6 @@ public class JsonScannerTest {
     @Before
     public void setUp() {
         this.jsonScanner = JsonScanner.getInstance();
-
     }
 
     @Test
@@ -57,6 +56,4 @@ public class JsonScannerTest {
         List<String> list = jsonScanner.listFiles(NOT_EXISTING_FOLDER);
         assertThat(list, hasSize(0));
     }
-
-
 }

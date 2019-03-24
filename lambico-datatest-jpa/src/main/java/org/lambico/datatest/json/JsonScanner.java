@@ -78,7 +78,6 @@ public class JsonScanner {
         list.addAll(candidates);
     }
 
-
     void checkDirectory(File directory, String path, List<String> list) throws IOException {
         if (directory.exists() && directory.isDirectory()) {
             List<String> files = Files.list(directory.toPath())
