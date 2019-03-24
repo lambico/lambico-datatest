@@ -14,18 +14,36 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.sameInstance;
 
+
+//@Ignore
 public class MultipleJsonDatasetLoaderTest {
     private static final String MULTIPLE_DATASET_RESOURCE = "org/lambico/datatest/multiplejson";
-    private static final String EMPTY_DATASET_RESOURCE = "org/lambico/datatest";
-    private static final String NOT_EXISTING_FOLDER = "org/lambico/notafolder";
+    private static final String MULTIPLE_DATASET_RESOURCE_FROM_JAR = "lambico/multiple";
+
 
     @Test
-    public void loading_Multiple_Dataset() {
+    public void load_FromFolder() {
         DatasetLoader loader =
                 MultipleJsonDatasetLoader.builder()
                         .datasetResourcePath(MULTIPLE_DATASET_RESOURCE)
                         .build();
         DataAggregator dataAggregator = loader.load();
+        commonCheck(dataAggregator);
+    }
+
+    @Test
+    public void load_FromJar() {
+        DatasetLoader loader =
+                MultipleJsonDatasetLoader.builder()
+                        .datasetResourcePath(MULTIPLE_DATASET_RESOURCE_FROM_JAR)
+                        .build();
+        assertThat(loader, notNullValue());
+        DataAggregator dataAggregator = loader.load();
+        commonCheck(dataAggregator);
+
+    }
+
+    private void commonCheck(DataAggregator dataAggregator) {
         assertThat(dataAggregator.getObjects().keySet(), hasSize(2));
         Collection<?> entities1 = dataAggregator.getObjects().get("org.lambico.datatest.example1.model.Entity1");
         assertThat(entities1, is(notNullValue()));
@@ -37,25 +55,6 @@ public class MultipleJsonDatasetLoaderTest {
         assertThat(entity2.getStringField(), is("test2"));
         assertThat(entity1.getEntity2(), is(sameInstance(entity2)));
         assertThat(entity2.getEntity1(), is(sameInstance(entity1)));
-    }
-
-    @Test
-    public void loading_empty_folder() {
-        DatasetLoader loader =
-                MultipleJsonDatasetLoader.builder()
-                        .datasetResourcePath(EMPTY_DATASET_RESOURCE)
-                        .build();
-        DataAggregator dataAggregator = loader.load();
-        assertThat(dataAggregator.getObjects().keySet(), hasSize(0));
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void loading_notExisting_folder() {
-        DatasetLoader loader =
-                MultipleJsonDatasetLoader.builder()
-                        .datasetResourcePath(NOT_EXISTING_FOLDER)
-                        .build();
-        loader.load();
     }
 
 }
