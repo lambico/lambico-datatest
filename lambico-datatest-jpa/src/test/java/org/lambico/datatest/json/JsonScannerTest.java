@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -34,7 +35,8 @@ public class JsonScannerTest {
         List<String> list = jsonScanner.listFiles(MULTIPLE_DATASET_RESOURCE);
         assertThat(list, hasSize(2));
         list.stream()
-                .filter(s -> s.startsWith(MULTIPLE_DATASET_RESOURCE))
+                .map(Paths::get)
+                .filter(path -> path.getParent().equals(Paths.get(MULTIPLE_DATASET_RESOURCE)))
                 .filter(s -> s.endsWith("Entity1.json"))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
