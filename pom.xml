@@ -24,10 +24,17 @@
 
   <modules>
     <module>lambico-datatest-jpa</module>
+    <module>lambico-datatest-test-resources</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.lambico</groupId>
+        <artifactId>lambico-datatest-test-resources</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
@@ -61,7 +68,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.4</version>
+        <version>1.18.6</version>
       </dependency>
       <dependency>
         <groupId>com.voodoodyne.jackson.jsog</groupId>

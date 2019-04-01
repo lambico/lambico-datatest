@@ -8,14 +8,9 @@ import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.DatasetLoader;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +32,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
 
 
     /**
-     * Load the dataset from a resource (folder/package) containing one or more json files.     *
-     *
+     * Load the dataset from a resource (folder/package) containing one or more json files.          *
      * @return The loaded dataset.
      */
     @Override
@@ -47,8 +41,7 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
     }
 
     /**
-     * Load the dataset from a resource (folder/package) containing one or more json files.     *
-     *
+     * Load the dataset from a resource (folder/package) containing one or more json files.
      * @param properties At present it's not used.
      * @return The loaded dataset.
      */
@@ -57,16 +50,15 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
         ObjectMapper mapper = new ObjectMapper();
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         mapper.enable(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS);
+        JsonScanner jsonScanner = JsonScanner.getInstance();
         try {
-            List<InputStream> streamList = getResourceFiles(this.datasetResourcePath).stream()
-                    .map(s -> Paths.get(this.datasetResourcePath, s))
-                    .filter(path -> !Files.isDirectory(path))
-                    .map(Path::toString)
-                    .filter(s -> s.endsWith(JSON_EXTENSION))
+            List<String> list = jsonScanner.listFiles(this.datasetResourcePath);
+            List<InputStream> streamList = list.stream()
                     .map(this::getResourceAsStream)
                     .collect(Collectors.toList());
             HashMap<String, Object> merged = new HashMap<>();
-            TypeReference<Map<String, Object>> mapType = new TypeReference<Map<String, Object>>() {};
+            TypeReference<Map<String, Object>> mapType = new TypeReference<Map<String, Object>>() {
+            };
             for (InputStream is : streamList) {
                 String s = inputStreamToString(is);
                 Map<String, Object> map = mapper.readValue(s, mapType);
@@ -79,26 +71,14 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
         }
     }
 
+    /*
+     ***** Internal methods *****
+     */
 
     private String inputStreamToString(InputStream inputStream) throws Exception {
         try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()))) {
             return br.lines().collect(Collectors.joining(System.lineSeparator()));
         }
-    }
-
-    /**
-     * https://stackoverflow.com/a/3923685/379173
-     */
-    private List<String> getResourceFiles(String path) throws IOException {
-        List<String> filenames = new ArrayList<>();
-        try (InputStream in = getResourceAsStream(path);
-             BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
-            String resource;
-            while ((resource = br.readLine()) != null) {
-                filenames.add(resource);
-            }
-        }
-        return filenames;
     }
 
     private InputStream getResourceAsStream(String resource) {
@@ -110,6 +90,5 @@ public class MultipleJsonDatasetLoader implements DatasetLoader {
     private ClassLoader getContextClassLoader() {
         return Thread.currentThread().getContextClassLoader();
     }
-
 
 }
