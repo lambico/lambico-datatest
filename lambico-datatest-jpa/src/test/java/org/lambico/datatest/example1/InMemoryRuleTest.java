@@ -2,25 +2,22 @@ package org.lambico.datatest.example1;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+
 import java.util.Collection;
 
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.lambico.datatest.DataAggregator;
+import org.lambico.datatest.annotation.TestData;
 import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
-import org.lambico.datatest.json.SingleJsonDatasetLoader;
-import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.junit.Dataset;
 
+@TestData(resource="org/lambico/datatest/example1/dataset/dataset.json")
 public class InMemoryRuleTest {
 
     @ClassRule
-    public static Dataset dataset = Dataset.builder()
-        .datasetLoader(
-            SingleJsonDatasetLoader.builder()
-            .datasetResource("org/lambico/datatest/example1/dataset/dataset.json")
-            .build())
-        .build();
+    public static Dataset dataset = Dataset.builder().build();
 
     @Test
     public void testEntity1() {

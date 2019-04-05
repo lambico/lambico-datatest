@@ -9,20 +9,16 @@ import java.util.Collection;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.lambico.datatest.DataAggregator;
-import org.lambico.datatest.json.SingleJsonDatasetLoader;
+import org.lambico.datatest.annotation.TestData;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Address;
 import org.lambico.datatest.sakila.model.Film;
 
+@TestData(resource="org/lambico/datatest/sakila/dataset/sakila.json")
 public class InMemoryRuleTest {
 
     @ClassRule
-    public static Dataset dataset = Dataset.builder()
-        .datasetLoader(
-            SingleJsonDatasetLoader.builder()
-            .datasetResource("org/lambico/datatest/sakila/dataset/sakila.json")
-            .build())
-        .build();
+    public static Dataset dataset = Dataset.builder().build();
 
     @Test
     public void loadAggregatedObject() {

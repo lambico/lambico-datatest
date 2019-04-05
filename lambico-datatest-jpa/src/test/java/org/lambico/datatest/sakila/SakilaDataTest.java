@@ -12,9 +12,9 @@ import javax.persistence.TypedQuery;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
-import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
-import org.lambico.datatest.json.SingleJsonDatasetLoader;
 import org.lambico.datatest.DataAggregator;
+import org.lambico.datatest.annotation.JpaTest;
+import org.lambico.datatest.annotation.TestData;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.junit.JpaContext;
 import org.lambico.datatest.sakila.model.Actor;
@@ -33,27 +33,16 @@ import org.lambico.datatest.sakila.model.Rental;
 import org.lambico.datatest.sakila.model.Staff;
 import org.lambico.datatest.sakila.model.Store;
 
+@TestData(resource="org/lambico/datatest/sakila/dataset/sakila.json")
+@JpaTest(loadEntities = {Country.class, City.class, Address.class, Store.class,
+                    Staff.class, Customer.class, Language.class, Actor.class,
+                    Film.class, FilmActor.class, Inventory.class, Rental.class,
+                    Payment.class, Category.class, FilmCategory.class},
+         useMerge = true)
 public class SakilaDataTest {
 
     @ClassRule
-    public static Dataset dataset = Dataset.builder()
-        .datasetLoader(
-            SingleJsonDatasetLoader.builder()
-            .datasetResource("org/lambico/datatest/sakila/dataset/sakila.json")
-            .build())
-        .entityManagerFactory(
-            EntityManagerFactoryCreator.builder()
-            .entity(Actor.class).entity(Address.class).entity(Category.class).entity(City.class)
-            .entity(Country.class).entity(Customer.class).entity(Film.class).entity(FilmActor.class)
-            .entity(FilmCategory.class).entity(Inventory.class).entity(Language.class).entity(Payment.class)
-            .entity(Rental.class).entity(Staff.class).entity(Store.class)
-            .build())
-        .loadEntities(
-            new Class<?>[] {Country.class, City.class, Address.class, Store.class, Staff.class, Customer.class,
-                Language.class, Actor.class, Film.class, FilmActor.class, Inventory.class,
-                Rental.class, Payment.class})
-        .useMerge(true)
-        .build();
+    public static Dataset dataset = Dataset.builder().build();
 
     @Rule
     public JpaContext jpaContext = new JpaContext(dataset.getEntityManagerFactory());
@@ -68,7 +57,6 @@ public class SakilaDataTest {
         Collection<?> addresses = dataAggregator.getObjects().get("org.lambico.datatest.sakila.model.Address");
         assertThat(addresses.size(), is(603));
         assertThat(addresses.iterator().next(), is(instanceOf(Address.class)));
-
     }
 
     @Test

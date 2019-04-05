@@ -10,6 +10,13 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.DatasetLoader;
+import org.lambico.datatest.annotation.JpaTest;
+import org.lambico.datatest.annotation.Property;
+import org.lambico.datatest.annotation.TestData;
+import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
+import org.lambico.datatest.jpa.EntityManagerFactoryCreator.EntityManagerFactoryBuilder;
+import org.lambico.datatest.json.SingleJsonDatasetLoader;
+import org.lambico.datatest.json.SingleJsonDatasetLoader.SingleJsonDatasetLoaderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +33,8 @@ public class Dataset implements TestRule {
     protected boolean useMerge;
 
     @Builder
-    private Dataset(DatasetLoader datasetLoader, EntityManagerFactory entityManagerFactory, Class<?>[] loadEntities, Integer flushWindowSize, boolean useMerge) {
+    private Dataset(DatasetLoader datasetLoader, EntityManagerFactory entityManagerFactory, Class<?>[] loadEntities,
+            Integer flushWindowSize, boolean useMerge) {
         this.datasetLoader = datasetLoader;
         this.entityManagerFactory = entityManagerFactory;
         this.loadEntities = loadEntities;
@@ -38,7 +46,42 @@ public class Dataset implements TestRule {
 
     @Override
     public Statement apply(Statement base, Description description) {
+        completeWithAnnotations(description);
         return statement(base, description);
+    }
+
+    private void completeWithAnnotations(Description description) {
+        if (this.datasetLoader == null) {
+            TestData testData = description.getAnnotation(TestData.class);
+            SingleJsonDatasetLoaderBuilder builder = SingleJsonDatasetLoader.builder();
+            this.datasetLoader = builder.datasetResource(testData.resource()).build();
+        }
+        JpaTest jpaTest = description.getAnnotation(JpaTest.class);
+        if (jpaTest != null) {
+            if (jpaTest.loadEntities().length > 0) {
+                this.loadEntities = jpaTest.loadEntities();
+            }
+            if (jpaTest.flushWindowSize() > 0) {
+                this.flushWindowSize = jpaTest.flushWindowSize();
+            }
+            this.useMerge = jpaTest.useMerge();
+            if (this.entityManagerFactory == null) {
+                EntityManagerFactoryBuilder builder = EntityManagerFactoryCreator.builder();
+                if (jpaTest.entities().length > 0) {
+                    for (Class<?> entity : jpaTest.entities()) {
+                        builder.entity(entity);
+                    }
+                } else {
+                    for (Class<?> entity : jpaTest.loadEntities()) {
+                        builder.entity(entity);
+                    }
+                }
+                for (Property prop : jpaTest.properties()) {
+                    builder.jpaProperty(prop.name(), prop.value());
+                }
+                this.entityManagerFactory = builder.build();
+            }
+        }
     }
 
     private Statement statement(final Statement base, final Description description) {

@@ -12,27 +12,21 @@ import javax.persistence.TypedQuery;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.lambico.datatest.annotation.JpaTest;
+import org.lambico.datatest.annotation.Property;
+import org.lambico.datatest.annotation.TestData;
 import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
-import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
-import org.lambico.datatest.json.SingleJsonDatasetLoader;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.junit.JpaContext;
 
-public class JpaTest {
+@TestData(resource="org/lambico/datatest/example1/dataset/dataset.json")
+@JpaTest(entities = {Entity1.class, Entity2.class},
+         properties = {@Property(name="hibernate.show_sql", value="true")})
+public class JpaSimpleTest {
 
     @ClassRule
-    public static Dataset dataset = Dataset.builder()
-        .datasetLoader(
-            SingleJsonDatasetLoader.builder()
-            .datasetResource("org/lambico/datatest/example1/dataset/dataset.json")
-            .build())
-        .entityManagerFactory(
-            EntityManagerFactoryCreator.builder()
-            .jpaProperty("hibernate.show_sql", "true")
-            .entity(Entity1.class).entity(Entity2.class)
-            .build())
-        .build();
+    public static Dataset dataset = Dataset.builder().build();
 
     @Rule
     public JpaContext jpaContext = new JpaContext(dataset.getEntityManagerFactory());
