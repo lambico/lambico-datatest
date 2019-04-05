@@ -56,7 +56,6 @@ public class EntityManagerFactoryCreator {
             jpaProperty("javax.persistence.schema-generation.database.action", "drop-and-create");
             jpaProperty("hibernate.enable_lazy_load_no_trans", "true");
             jpaProperty("hibernate.event.merge.entity_copy_observer", "allow");
-            jpaProperty("hibernate.archive.autodetection", "true");
         }
 
         public EntityManagerFactoryBuilder jpaProperty(Object key, Object value) {
