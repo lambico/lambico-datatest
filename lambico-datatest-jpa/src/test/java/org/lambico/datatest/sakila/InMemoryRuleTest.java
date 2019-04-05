@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.lambico.datatest.DataAggregator;
+import org.lambico.datatest.json.SingleJsonDatasetLoader;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Address;
 import org.lambico.datatest.sakila.model.Film;
@@ -16,7 +17,12 @@ import org.lambico.datatest.sakila.model.Film;
 public class InMemoryRuleTest {
 
     @ClassRule
-    public static Dataset dataset = new Dataset("org/lambico/datatest/sakila/dataset/sakila.json");
+    public static Dataset dataset = Dataset.builder()
+        .datasetLoader(
+            SingleJsonDatasetLoader.builder()
+            .datasetResource("org/lambico/datatest/sakila/dataset/sakila.json")
+            .build())
+        .build();
 
     @Test
     public void loadAggregatedObject() {
@@ -28,7 +34,7 @@ public class InMemoryRuleTest {
         Collection<?> addresses = dataAggregator.getObjects().get("org.lambico.datatest.sakila.model.Address");
         assertThat(addresses.size(), is(603));
         assertThat(addresses.iterator().next(), is(instanceOf(Address.class)));
-
     }
     
 }
+

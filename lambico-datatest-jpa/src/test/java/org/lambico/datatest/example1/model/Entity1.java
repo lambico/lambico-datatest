@@ -1,5 +1,6 @@
 package org.lambico.datatest.example1.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,17 +11,36 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.voodoodyne.jackson.jsog.JSOGGenerator;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
-@EqualsAndHashCode
 @JsonIdentityInfo(generator=JSOGGenerator.class)
 public class Entity1 {
-    @EqualsAndHashCode.Exclude
     @Id @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String stringField;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Entity2 entity2;
+
+    /**
+     * See https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+     */
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+ 
+        if (!(o instanceof Entity1))
+            return false;
+ 
+        Entity1 other = (Entity1) o;
+ 
+        return id != null &&
+               id.equals(other.getId());
+    }
+
 }

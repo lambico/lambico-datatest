@@ -20,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
+import org.lambico.datatest.json.SingleJsonDatasetLoader;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Actor;
 import org.lambico.datatest.sakila.model.Address;
@@ -44,7 +45,12 @@ public class LanguageTest {
     private static EntityManagerFactory emf;
 
     @ClassRule
-    public static Dataset dataset = new Dataset("org/lambico/datatest/sakila/dataset/sakila.json");
+    public static Dataset dataset = Dataset.builder()
+        .datasetLoader(
+            SingleJsonDatasetLoader.builder()
+            .datasetResource("org/lambico/datatest/sakila/dataset/sakila.json")
+            .build())
+        .build();
 
     private EntityManager em;
 

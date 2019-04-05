@@ -23,8 +23,6 @@ import java.util.stream.Collectors;
 @Builder
 public class MultipleJsonDatasetLoader implements DatasetLoader {
 
-
-    private static final String JSON_EXTENSION = ".json";
     /**
      * The name of the JSON resource from which loading the dataset.
      */
