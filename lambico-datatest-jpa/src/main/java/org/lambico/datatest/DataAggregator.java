@@ -1,16 +1,14 @@
 package org.lambico.datatest;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Data;
+import org.lambico.datatest.json.DataAggregatorDeserializer;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import org.lambico.datatest.json.DataAggregatorDeserializer;
-
-import lombok.Data;
 
 /**
  * A container aggregating the data of different entities. Usually it maps the
@@ -22,13 +20,12 @@ public class DataAggregator {
     Map<String, Collection<?>> objects = new HashMap<>();
 
     public Set<Class<?>> getTypes() {
-        Set<Class<?>> result = objects.keySet().stream().map(v -> {
+        return objects.keySet().stream().map(v -> {
             try {
                 return Class.forName(v);
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException("Error extracting data type", e);
             }
         }).collect(Collectors.toSet());
-        return result;
     }
 }

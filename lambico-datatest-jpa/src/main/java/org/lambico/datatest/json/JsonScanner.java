@@ -9,6 +9,7 @@ import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JsonScanner {
 
-    static final String EXT = "json";
+    private static final String EXT = "json";
     private static JsonScanner ref = null;
 
     public static JsonScanner getInstance() {
@@ -57,13 +58,13 @@ public class JsonScanner {
             } else {
                 checkDirectory(
                         new File(URLDecoder.decode(url.getPath(),
-                                "UTF-8")), path, result);
+                                StandardCharsets.UTF_8.name())), path, result);
             }
         }
         return result;
     }
 
-    void checkJarFile(JarURLConnection connection, String path, List<String> list) throws IOException {
+    private void checkJarFile(JarURLConnection connection, String path, List<String> list) throws IOException {
         final JarFile jarFile = connection.getJarFile();
         final Enumeration<JarEntry> entries = jarFile.entries();
         ArrayList<JarEntry> jarEntries = Collections.list(entries);
@@ -75,7 +76,7 @@ public class JsonScanner {
         list.addAll(candidates);
     }
 
-    void checkDirectory(File directory, String path, List<String> list) throws IOException {
+    private void checkDirectory(File directory, String path, List<String> list) throws IOException {
         if (directory.exists() && directory.isDirectory()) {
             List<String> files = Files.list(directory.toPath())
                     .filter(Files::isRegularFile)
