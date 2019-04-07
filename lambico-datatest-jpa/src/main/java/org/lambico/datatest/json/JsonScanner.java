@@ -2,7 +2,6 @@ package org.lambico.datatest.json;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,12 +54,10 @@ public class JsonScanner {
 
             if (connection instanceof JarURLConnection) {
                 checkJarFile((JarURLConnection) connection, path, result);
-            } else if (connection instanceof FileURLConnection) {
+            } else {
                 checkDirectory(
                         new File(URLDecoder.decode(url.getPath(),
                                 "UTF-8")), path, result);
-            } else {
-                throw new RuntimeException("invalid connection: " + connection.toString());
             }
         }
         return result;
