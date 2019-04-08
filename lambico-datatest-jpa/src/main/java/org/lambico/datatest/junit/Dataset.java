@@ -17,11 +17,7 @@
  */
 package org.lambico.datatest.junit;
 
-import java.util.Collection;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-
+import lombok.Builder;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -37,7 +33,10 @@ import org.lambico.datatest.json.SingleJsonDatasetLoader.SingleJsonDatasetLoader
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import lombok.Builder;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+import java.util.Collection;
 
 public class Dataset implements TestRule {
     private static final Logger log = LoggerFactory.getLogger(Dataset.class);
@@ -46,8 +45,8 @@ public class Dataset implements TestRule {
     private DataAggregator dataAggregator;
     private EntityManagerFactory entityManagerFactory;
     private Class<?>[] loadEntities;
-    protected Integer flushWindowSize;
-    protected boolean useMerge;
+    Integer flushWindowSize;
+    boolean useMerge;
 
     @Builder
     private Dataset(DatasetLoader datasetLoader, EntityManagerFactory entityManagerFactory, Class<?>[] loadEntities,
@@ -115,14 +114,14 @@ public class Dataset implements TestRule {
         };
     }
 
-    protected void before(Description description) throws Throwable {
+    private void before(Description description) {
         this.dataAggregator = this.datasetLoader.load();
         if (this.entityManagerFactory != null) {
             this.populateTestDatabase();
         }
     }
 
-    protected void after(Description description) {
+    private void after(Description description) {
         if (this.entityManagerFactory != null) {
             this.entityManagerFactory.close();
         }
@@ -142,7 +141,7 @@ public class Dataset implements TestRule {
         return entityManagerFactory;
     }
 
-    protected void populateTestDatabase() {
+    private void populateTestDatabase() {
         EntityManager em = this.entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         Query disableReferentialIntegrity = em.createNativeQuery("SET REFERENTIAL_INTEGRITY FALSE;");
