@@ -16,6 +16,10 @@
   <description>Testing data access for JPA projects.</description>
   <url>http://www.lambico.org</url>
 
+  <properties>
+    <main.basedir>${basedir}/..</main.basedir>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.lambico</groupId>

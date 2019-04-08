@@ -18,6 +18,10 @@
     <description>Json dataset to be used for test</description>
     <url>http://www.lambico.org</url>
 
+    <properties>
+        <main.basedir>${basedir}/..</main.basedir>
+    </properties>
+
     <dependencies/>
 
 </project>
