@@ -37,7 +37,7 @@ import org.lambico.datatest.example1.model.Entity2;
 import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.junit.JpaContext;
 
-@TestData(resource="org/lambico/datatest/example1/dataset/dataset.json")
+@TestData(resources = "org/lambico/datatest/example1/dataset/dataset.json")
 @JpaTest(entities = {Entity1.class, Entity2.class},
          properties = {@Property(name="hibernate.show_sql", value="true")})
 public class JpaSimpleTest {

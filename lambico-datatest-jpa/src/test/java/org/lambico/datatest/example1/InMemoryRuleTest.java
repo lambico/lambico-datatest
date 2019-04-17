@@ -30,7 +30,7 @@ import org.lambico.datatest.example1.model.Entity1;
 import org.lambico.datatest.example1.model.Entity2;
 import org.lambico.datatest.junit.Dataset;
 
-@TestData(resource="org/lambico/datatest/example1/dataset/dataset.json")
+@TestData(resources = "org/lambico/datatest/example1/dataset/dataset.json")
 public class InMemoryRuleTest {
 
     @ClassRule

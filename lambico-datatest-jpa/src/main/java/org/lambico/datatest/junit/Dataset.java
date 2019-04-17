@@ -27,13 +27,12 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 import org.lambico.datatest.DataAggregator;
 import org.lambico.datatest.DatasetLoader;
+import org.lambico.datatest.DatasetLoaderFactory;
 import org.lambico.datatest.annotation.JpaTest;
 import org.lambico.datatest.annotation.Property;
 import org.lambico.datatest.annotation.TestData;
 import org.lambico.datatest.jpa.EntityManagerFactoryCreator;
 import org.lambico.datatest.jpa.EntityManagerFactoryCreator.EntityManagerFactoryBuilder;
-import org.lambico.datatest.json.SingleJsonDatasetLoader;
-import org.lambico.datatest.json.SingleJsonDatasetLoader.SingleJsonDatasetLoaderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,8 +69,7 @@ public class Dataset implements TestRule {
     private void completeWithAnnotations(Description description) {
         if (this.datasetLoader == null) {
             TestData testData = description.getAnnotation(TestData.class);
-            SingleJsonDatasetLoaderBuilder builder = SingleJsonDatasetLoader.builder();
-            this.datasetLoader = builder.datasetResource(testData.resource()).build();
+            this.datasetLoader = DatasetLoaderFactory.create(testData);
         }
         JpaTest jpaTest = description.getAnnotation(JpaTest.class);
         if (jpaTest != null) {

@@ -50,7 +50,7 @@ import org.lambico.datatest.sakila.model.Rental;
 import org.lambico.datatest.sakila.model.Staff;
 import org.lambico.datatest.sakila.model.Store;
 
-@TestData(resource="org/lambico/datatest/sakila/dataset/sakila.json")
+@TestData(resources = "org/lambico/datatest/sakila/dataset/sakila.json")
 @JpaTest(entities = {Country.class, City.class, Address.class, Store.class,
                     Staff.class, Customer.class, Language.class, Actor.class,
                     Film.class, FilmActor.class, Inventory.class, Rental.class,

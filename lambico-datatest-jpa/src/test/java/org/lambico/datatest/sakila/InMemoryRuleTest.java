@@ -31,7 +31,7 @@ import org.lambico.datatest.junit.Dataset;
 import org.lambico.datatest.sakila.model.Address;
 import org.lambico.datatest.sakila.model.Film;
 
-@TestData(resource="org/lambico/datatest/sakila/dataset/sakila.json")
+@TestData(resources = "org/lambico/datatest/sakila/dataset/sakila.json")
 public class InMemoryRuleTest {
 
     @ClassRule
