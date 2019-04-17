@@ -17,19 +17,20 @@
  */
 package org.lambico.datatest.jpa;
 
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
-
-import java.lang.reflect.InvocationTargetException;
+import org.junit.Test;
 
 import javax.persistence.EntityManagerFactory;
 
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 public class EntityManagerFactoryCreatorTest {
     @Test
-    public void testWithAllDefaults() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-            InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+    public void testWithAllDefaults() throws IllegalArgumentException,
+            SecurityException {
         EntityManagerFactory emf = EntityManagerFactoryCreator.builder().build();
         assertThat(emf, is(not(nullValue())));
         assertThat(emf.getProperties().keySet(),
