@@ -1,0 +1,12 @@
+{
+  "org.lambico.datatest.example1.model.Entity2": [
+    {
+      "@id": "Entity2-1",
+      "id": null,
+      "stringField": "test2",
+      "entity1": {
+        "@ref": "Entity1-1"
+      }
+    }
+  ]
+}
