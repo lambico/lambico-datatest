@@ -12,8 +12,10 @@
   <name>lambico-datatest-parent</name>
   <description>Support for data-centric test.</description>
   <url>http://www.lambico.org</url>
+  <inceptionYear>2018</inceptionYear>
 
   <properties>
+    <main.basedir>${basedir}</main.basedir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
@@ -24,19 +26,26 @@
 
   <modules>
     <module>lambico-datatest-jpa</module>
+    <module>lambico-datatest-test-resources</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.lambico</groupId>
+        <artifactId>lambico-datatest-test-resources</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
       <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>${junit.junit4.version}</version>
       </dependency>
       <dependency>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-          <version>2.1</version>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-core</artifactId>
+        <version>2.1</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -61,7 +70,7 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.4</version>
+        <version>1.18.6</version>
       </dependency>
       <dependency>
         <groupId>com.voodoodyne.jackson.jsog</groupId>
@@ -136,6 +145,11 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>3.0</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -145,6 +159,38 @@
         <configuration>
           <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <inherited>true</inherited>
+        <configuration>
+          <strictCheck>true</strictCheck>
+          <aggregate>false</aggregate>
+          <header>${main.basedir}/LICENSE-HEADER</header>
+          <properties>
+            <owner>The Lambico Datatest Team</owner>
+            <email>lucio.benfante@gmail.com</email>
+          </properties>
+          <excludes>
+            <exclude>LICENSE</exclude>
+            <exclude>LICENSE-HEADER</exclude>
+            <exclude>.mvn/**/*</exclude>
+            <exclude>mvnw</exclude>
+            <exclude>mvnw.cmd</exclude>
+            <exclude>pom.xml</exclude>
+            <exclude>.cirrus.yml</exclude>
+            <exclude>*.code-workspace</exclude>
+            <exclude>.attach_pid*</exclude>
+          </excludes>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
