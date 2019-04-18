@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>org.lambico</groupId>
   <artifactId>lambico-datatest-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-
-  <name>lambico-datatest-parent</name>
+  <name>Lambico Datatest</name>
   <description>Support for data-centric test.</description>
   <url>http://www.lambico.org</url>
   <inceptionYear>2018</inceptionYear>
-
   <properties>
     <main.basedir>${basedir}</main.basedir>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,12 +18,10 @@
     <junit.junit4.version>4.12</junit.junit4.version>
     <jackson.version>2.9.8</jackson.version>
   </properties>
-
   <modules>
     <module>lambico-datatest-jpa</module>
     <module>lambico-datatest-test-resources</module>
   </modules>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -104,9 +97,9 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <build>
-    <pluginManagement>      <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+    <pluginManagement>
+      <!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -146,9 +139,26 @@
           <version>2.8.2</version>
         </plugin>
         <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.0.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>3.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.8</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -194,7 +204,6 @@
       </plugin>
     </plugins>
   </build>
-
   <reporting>
     <plugins>
       <plugin>
@@ -202,4 +211,133 @@
       </plugin>
     </plugins>
   </reporting>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+  <scm>
+    <connection>scm:git:https://github.com/lambico/lambico-datatest.git</connection>
+    <developerConnection>scm:git:git@github.com:lambico/lambico-datatest.git</developerConnection>
+    <url>https://github.com/lambico/lambico-datatest</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/lambico/lambico-datatest/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.com/lambico/lambico-datatest</url>
+  </ciManagement>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+  <organization>
+    <name>Lambico Datatest Team</name>
+    <url>https://github.com/orgs/lambico/teams/datatest-team</url>
+  </organization>
+  <developers>
+    <developer>
+      <id>benfante</id>
+      <name>Lucio Benfante</name>
+      <email>lucio@benfante.com</email>
+      <url>http://benfante.blogspot.com</url>
+      <organization>Lucio Benfante Consulting</organization>
+      <organizationUrl>http://www.benfante.com</organizationUrl>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Rome</timezone>
+      <properties>
+        <picUrl>https://www.gravatar.com/avatar/474d2b9153738fda8417eda97a7e3035.jpg</picUrl>
+      </properties>
+    </developer>
+    <developer>
+      <id>egch</id>
+      <name>Enrico Giurin</name>
+      <email>enricogiurin@gmail.com</email>
+      <url>https://github.com/egch</url>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Zurich</timezone>
+      <properties>
+        <picUrl>https://www.gravatar.com/avatar/fb4024ba57783540f6de1b8aed6d916d.jpg</picUrl>
+      </properties>
+    </developer>
+  </developers>
+  <profiles>
+    <!-- Activate using the release property: mvn clean install -Plambico-release -->
+    <profile>
+      <id>lambico-release</id>
+      <activation>
+        <property>
+          <name>lambico-release</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- To release to Maven central -->
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <serverid>sonatype-nexus</serverid>
+              <nexusurl>https://oss.sonatype.org/</nexusurl>
+              <autoreleaseafterclose>true</autoreleaseafterclose>
+            </configuration>
+          </plugin>
+          <!-- To generate javadoc -->
+          <plugin>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- To sign the artifacts -->
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
