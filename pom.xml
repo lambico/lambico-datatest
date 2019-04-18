@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.lambico</groupId>
   <artifactId>lambico-datatest-parent</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>T1.0</version>
   <packaging>pom</packaging>
   <name>Lambico Datatest</name>
   <description>Support for data-centric test.</description>
@@ -227,6 +227,7 @@
     <connection>scm:git:https://github.com/lambico/lambico-datatest.git</connection>
     <developerConnection>scm:git:git@github.com:lambico/lambico-datatest.git</developerConnection>
     <url>https://github.com/lambico/lambico-datatest</url>
+    <tag>T1.0</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
