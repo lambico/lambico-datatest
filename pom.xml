@@ -15,7 +15,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <m2e.apt.activation>disabled</m2e.apt.activation>
-        <junit.junit4.version>4.12</junit.junit4.version>
+        <junit.junit4.version>4.13.1</junit.junit4.version>
         <junit.jupiter.version>5.5.2</junit.jupiter.version>
         <junit.vintage.version>5.5.2</junit.vintage.version>
         <jackson.version>2.10.1</jackson.version>
